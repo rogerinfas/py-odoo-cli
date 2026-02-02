@@ -51,7 +51,7 @@ class OdooClient:
         if offset: kwargs['offset'] = offset
         if order: kwargs['order'] = order
         
-        return self.execute(model, 'search_read', domain, kwargs)
+        return self.execute(model, 'search_read', domain, **kwargs)
 
     def create(self, model, vals):
         """Helper to create a record."""

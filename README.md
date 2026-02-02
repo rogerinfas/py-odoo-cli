@@ -67,6 +67,16 @@ List records:
 python3 main.py list res.partner --limit 5 --fields name,email
 ```
 
+List installed modules:
+```bash
+python3 main.py list_modules
+```
+
+List system configurations:
+```bash
+python3 main.py list_config
+```
+
 ## Structure
 
 - `odoo_cli/`: Package containing the library logic.
