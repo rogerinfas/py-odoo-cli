@@ -11,8 +11,11 @@ class OdooClient:
         self.password = Config.ODOO_PASSWORD
         self.uid = None
         
-        # Create unverified context to avoid SSL errors with self-signed certs or old servers
-        self.context = ssl._create_unverified_context()
+        # Create SSL context based on configuration
+        if Config.ODOO_VERIFY_SSL:
+            self.context = ssl.create_default_context()
+        else:
+            self.context = ssl._create_unverified_context()
 
     def connect(self):
         """Authenticate with Odoo and retrieve UID."""
