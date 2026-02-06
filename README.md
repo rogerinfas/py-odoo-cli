@@ -1,84 +1,84 @@
 # py-odoo-cli
 
-A strictly decoupled, reusable Python library for Odoo XML-RPC interactions.  
-Designed to work with environment variables (`.env`) for easy configuration in any project.
+Biblioteca Python desacoplada y reutilizable para interactuar con Odoo vía XML-RPC.  
+Pensada para usar variables de entorno (`.env`) y configurarse fácilmente en cualquier proyecto.
 
-## Features
+## Características
 
-- **Decoupled**: Core logic is separated from configuration and usage.
-- **Configurable**: Uses `.env` file for credentials.
-- **Simple API**: Easy wrappers for `search_read`, `create`, `write`, `unlink`.
-- **CLI Included**: Defines a `main.py` entry point for testing and quick actions.
+- **Desacoplada**: La lógica principal está separada de la configuración y del uso.
+- **Configurable**: Usa archivo `.env` para credenciales.
+- **API sencilla**: Wrappers para `search_read`, `create`, `write`, `unlink`.
+- **CLI incluido**: Punto de entrada `main.py` para pruebas y acciones rápidas.
 
-## Installation
+## Instalación
 
-1. Clone this repository:
+1. Clona el repositorio:
    ```bash
    git clone https://github.com/your-user/py-odoo-cli.git
    cd py-odoo-cli
    ```
 
-2. Install [UV](https://docs.astral.sh/uv/) and dependencies:
+2. Instala [UV](https://docs.astral.sh/uv/) y las dependencias:
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    uv sync
    ```
 
-3. Configure environment:
-   Copy `.env.example` to `.env`:
+3. Configura el entorno:
+   Copia `.env.example` a `.env`:
    ```bash
    cp .env.example .env
    ```
-   Edit `.env` with your Odoo credentials:
+   Edita `.env` con tus credenciales de Odoo:
    ```env
-   ODOO_URL=https://your-instance.odoo.com
-   ODOO_DB=your-db
-   ODOO_USER=email@example.com
-   ODOO_PASSWORD=your-api-key
+   ODOO_URL=https://tu-instancia.odoo.com
+   ODOO_DB=tu-base-de-datos
+   ODOO_USER=email@ejemplo.com
+   ODOO_PASSWORD=tu-api-key
    ```
 
-## Usage
+## Uso
 
-### As a Library
+### Como biblioteca
 
 ```python
 from odoo_cli import OdooClient
 
-# Automatically loads credentials from .env
+# Carga credenciales desde .env automáticamente
 client = OdooClient()
 
-# Connect
+# Conectar
 uid = client.connect()
 
-# Search records
+# Buscar registros
 partners = client.search_read('res.partner', [['customer_rank', '>', 0]], limit=5)
 for p in partners:
     print(p['name'])
 ```
 
-### via CLI
+### Desde la CLI
 
-Check connection:
+Probar conexión:
 ```bash
 uv run python main.py test-connection
 ```
 
-List records:
+Listar registros:
 ```bash
 uv run python main.py list res.partner --limit 5 --fields name,email
 ```
 
-List installed modules:
+Listar módulos instalados:
 ```bash
 uv run python main.py list-modules
 ```
 
-List system configurations:
+Listar parámetros del sistema:
 ```bash
 uv run python main.py list-config
 ```
 
-## Structure
+## Estructura
 
 ```
 py-odoo-cli/
@@ -93,12 +93,12 @@ py-odoo-cli/
 └── tests/             # Tests unitarios
 ```
 
-### Base de Conocimiento (`knowledge/`)
+### Base de conocimiento (`knowledge/`)
 
-La carpeta `knowledge/` contiene proyectos específicos y casos de uso que utilizan la biblioteca `odoo_cli`. Cada proyecto tiene su propia carpeta con:
+La carpeta `knowledge/` contiene proyectos concretos y casos de uso que usan la biblioteca `odoo_cli`. Cada proyecto tiene su propia carpeta con:
 
-- Scripts específicos del proyecto
+- Scripts propios del proyecto
 - Documentación y guías
-- Configuraciones particulares si es necesario
+- Configuraciones particulares si hace falta
 
-Esta estructura mantiene la raíz del proyecto limpia y organiza el conocimiento adquirido de cada implementación.
+Así la raíz del proyecto se mantiene ordenada y se organiza el conocimiento de cada implementación.
