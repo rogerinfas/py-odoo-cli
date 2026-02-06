@@ -80,7 +80,25 @@ uv run python main.py list-config
 
 ## Structure
 
-- `odoo_cli/`: Package containing the library logic.
-  - `client.py`: Main wrapper class.
-  - `config.py`: Configuration loader.
-- `main.py`: Example CLI usage script.
+```
+py-odoo-cli/
+├── odoo_cli/          # Biblioteca core (reutilizable)
+│   ├── client.py      # Cliente principal con wrappers
+│   └── config.py      # Carga y validación de configuración
+├── main.py            # CLI general para pruebas rápidas
+├── knowledge/         # Base de conocimiento: proyectos y casos de uso específicos
+│   └── hotel-trip-agency/  # Proyecto específico de ejemplo
+│       ├── setup_timezone.py
+│       └── debug_planning.py
+└── tests/             # Tests unitarios
+```
+
+### Base de Conocimiento (`knowledge/`)
+
+La carpeta `knowledge/` contiene proyectos específicos y casos de uso que utilizan la biblioteca `odoo_cli`. Cada proyecto tiene su propia carpeta con:
+
+- Scripts específicos del proyecto
+- Documentación y guías
+- Configuraciones particulares si es necesario
+
+Esta estructura mantiene la raíz del proyecto limpia y organiza el conocimiento adquirido de cada implementación.
