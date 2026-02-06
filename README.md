@@ -99,7 +99,8 @@ for p in partners:
 py-odoo-cli/
 ├── odoo_cli/              # Biblioteca core
 │   ├── client.py          # Cliente y wrappers
-│   └── config.py          # Carga y validación
+│   ├── config.py          # Carga y validación
+│   └── exceptions.py      # Excepciones propias (manejo de errores)
 ├── main.py                # CLI general
 ├── knowledge/             # Base de conocimiento (proyectos y casos de uso)
 │   └── hotel-trip-agency/
@@ -113,6 +114,38 @@ py-odoo-cli/
 Contiene proyectos concretos y casos de uso que usan `odoo_cli`. Cada proyecto vive en su propia carpeta con scripts, documentación y, si aplica, configuraciones propias. La raíz del repo se mantiene limpia y el conocimiento queda organizado por implementación.
 
 Más detalles en [knowledge/README.md](knowledge/README.md).
+
+---
+
+## Manejo de errores
+
+La biblioteca define excepciones propias para que puedas distinguir fallos de configuración, conexión o respuestas del servidor Odoo.
+
+| Excepción | Cuándo se lanza |
+|-----------|------------------|
+| `OdooConfigError` | Faltan variables en `.env` o la configuración es inválida. |
+| `OdooConnectionError` | No se puede conectar a la URL de Odoo o la autenticación falla. |
+| `OdooFaultError` | Odoo devuelve un error (permisos, validación, regla de negocio). Incluye `fault_code` y `fault_string`. |
+| `OdooExecutionError` | Fallo durante la ejecución (red, timeout, etc.). |
+
+Todas heredan de `OdooClientError`, así que puedes capturar cualquier error de la biblioteca con una sola cláusula si lo prefieres.
+
+**Ejemplo**
+
+```python
+from odoo_cli import OdooClient, OdooConfigError, OdooConnectionError, OdooFaultError
+
+try:
+    client = OdooClient()
+    client.connect()
+    client.create("res.partner", {"name": "Test"})
+except OdooConfigError:
+    print("Revisa tu archivo .env")
+except OdooConnectionError:
+    print("No se pudo conectar o credenciales incorrectas")
+except OdooFaultError as e:
+    print(f"Error de Odoo: {e.fault_string} (código: {e.fault_code})")
+```
 
 ---
 
