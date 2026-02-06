@@ -2,15 +2,15 @@
 """Configure timezone for all Odoo components of a hotel instance.
 
 Usage:
-    uv run python hotel-trip-agency/setup_timezone.py [TIMEZONE]
+    uv run python knowledge/hotel-trip-agency/setup_timezone.py [TIMEZONE]
 
 Examples:
-    uv run python hotel-trip-agency/setup_timezone.py America/Lima
-    uv run python hotel-trip-agency/setup_timezone.py America/Bogota
+    uv run python knowledge/hotel-trip-agency/setup_timezone.py America/Lima
+    uv run python knowledge/hotel-trip-agency/setup_timezone.py America/Bogota
 """
 import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 import typer
 from odoo_cli import OdooClient
