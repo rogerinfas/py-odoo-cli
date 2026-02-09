@@ -239,23 +239,43 @@ Para números de serie **únicos** que no se reutilizan, debe existir **solo un 
 > - Todas las existencias actuales que usan ese número.
 > - Todas las operaciones en las que se ha utilizado.
 
+![Página de reporte de números de serie con listas desplegables](https://www.odoo.com/documentation/15.0/_images/serial-numbers-reporting-page.png)
+
 ---
 
 ## Referencia de imágenes
 
-La documentación oficial incluye capturas de pantalla para cada paso.  
-Aunque en esta exportación no se listan explícitamente todas las URLs de las imágenes, puedes consultarlas y descargarlas directamente desde la página oficial:
+Todas las imágenes apuntan al sitio oficial de Odoo.  
+Si quieres descargarlas para trabajarlas en local (por ejemplo en `knowledge/docs/batches-and-serial-numbers/imgs/`), puedes usar esta tabla como referencia:
 
-- [Usar números de serie para rastrear productos — Odoo 15](https://www.odoo.com/documentation/15.0/es/applications/inventory_and_mrp/inventory/management/lots_serial_numbers/serial_numbers.html)
+| Descripción                                                                 | URL (Odoo)                                                                                     | Nombre sugerido local                                 |
+|----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| Ajuste activado: números de lote y de serie en Inventario                  | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-enabled-setting.png`          | `serial-numbers-enabled-setting.png`                  |
+| Formulario de producto con rastreo por número de serie                     | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-product-tracking.png`         | `serial-numbers-product-tracking.png`                 |
+| Nuevo número de serie creado para producto en existencias                  | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-new-serial-number.png`        | `serial-numbers-new-serial-number.png`                |
+| Error de usuario: falta asignar número de serie/lote en recepción          | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-user-error-popup.png`         | `serial-numbers-user-error-popup.png`                 |
+| Asignación automática de números de serie en operaciones detalladas        | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-auto-assign-sn.png`           | `serial-numbers-auto-assign-sn.png`                   |
+| Ejemplo de hoja de cálculo con números de serie                            | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-excel-spreadsheet.png`        | `serial-numbers-excel-spreadsheet.png`                |
+| Ventana de operaciones detalladas con números de serie en órdenes de entrega | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-detailed-operations-popup.png` | `serial-numbers-detailed-operations-popup.png`        |
+| Ajustes de tipos de operación para gestión de números de serie             | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-operations-types.png`         | `serial-numbers-operations-types.png`                 |
+| Reporte de trazabilidad de números de serie                                | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-reporting-page.png`           | `serial-numbers-reporting-page.png`                   |
 
-Si necesitas alinearlo con otros recursos (como los de SUNAT), puedes:
+Ejemplo de descarga desde la raíz del proyecto:
 
-1. Abrir la página anterior en el navegador.
-2. Inspeccionar las imágenes con las herramientas de desarrollador.
-3. Copiar las URLs (normalmente bajo `/documentation/15.0/_images/...`).
-4. Guardarlas en una carpeta local (por ejemplo, `imgs/`) y referenciarlas así:
-
-```markdown
-![Título descriptivo](imgs/odoo-serial-numbers-paso-1.png)
+```bash
+cd knowledge/docs/batches-and-serial-numbers
+mkdir -p imgs
+curl -o imgs/serial-numbers-enabled-setting.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-enabled-setting.png"
+curl -o imgs/serial-numbers-product-tracking.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-product-tracking.png"
+curl -o imgs/serial-numbers-new-serial-number.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-new-serial-number.png"
+curl -o imgs/serial-numbers-user-error-popup.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-user-error-popup.png"
+curl -o imgs/serial-numbers-auto-assign-sn.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-auto-assign-sn.png"
+curl -o imgs/serial-numbers-excel-spreadsheet.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-excel-spreadsheet.png"
+curl -o imgs/serial-numbers-detailed-operations-popup.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-detailed-operations-popup.png"
+curl -o imgs/serial-numbers-operations-types.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-operations-types.png"
+curl -o imgs/serial-numbers-reporting-page.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-reporting-page.png"
 ```
+
+Si guardas las imágenes en `imgs/`, puedes reemplazar las URLs absolutas por rutas relativas dentro de este mismo archivo, por ejemplo: `![Números de serie en recepción](imgs/serial-numbers-user-error-popup.png)`.
+
 
