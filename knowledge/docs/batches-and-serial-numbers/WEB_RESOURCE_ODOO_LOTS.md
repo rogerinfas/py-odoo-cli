@@ -230,7 +230,7 @@ No olvidar **Guardar** los cambios.
 
 ---
 
-## Trazabilidad de lotes
+## 6. Trazabilidad de lotes y reportes
 
 Los reportes de **trazabilidad** permiten ver el ciclo de vida del producto:
 
@@ -238,25 +238,58 @@ Los reportes de **trazabilidad** permiten ver el ciclo de vida del producto:
 - Dónde se **almacenó**.
 - A quién y **cuándo** se entregó.
 
-Para consultar la trazabilidad por lotes:
+### 6.1. Tablero de Lotes/Números de serie
 
 1. Ir a `Inventario ‣ Productos ‣ Lotes/Números de serie`.
 2. Allí se ve el tablero de **Lotes/Números de serie**.
 3. Se listan todos los productos a los que se les ha asignado un número de lote.
-4. Se puede expandir cada línea para ver:
-   - Números de lote asociados.
-   - Cantidades por lote.
+4. Se puede:
+   - Expandir cada línea para ver números de lote asociados y cantidades.
+   - Agrupar por **Producto**, **Lote/Número de serie** o **Fecha de caducidad**.
 
-Para agrupar por números de lote (o números de serie):
+### 6.2. Reporte de trazabilidad
 
-1. Quitar los filtros activos de la barra de búsqueda.
-2. Hacer clic en **Agrupar por**.
-3. Seleccionar **Agregar grupo personalizado**.
-4. Escoger **Número de lote/serie**.
-5. Hacer clic en **Aplicar**.
+1. Desde el tablero, hacer clic en un lote específico.
+2. En el formulario del lote, pulsar el botón **Trazabilidad (Traceability)**.
+3. Verás todos los movimientos de stock donde se utilizó ese lote, con sus documentos de referencia.
 
-Esto mostrará todos los lotes/números de serie existentes y permitirá expandir cada grupo para ver las cantidades de productos asociadas a cada número.
+También puedes usar los reportes de:
 
-> Véase también:
-> - [Diferencia entre lotes y números de serie](https://www.odoo.com/documentation/15.0/es/applications/inventory_and_mrp/inventory/management/lots_serial_numbers/differences.html)
+- **Historial de movimientos**.
+- **Análisis de movimientos**.
+
+filtrando o agrupando por **Lote/Número de serie**.
+
+---
+
+## 7. Referencia de imágenes (saas‑18.4)
+
+La página oficial de *Lot numbers* en Odoo saas‑18.4 incluye capturas para:
+
+- Activar **Lots & Serial Numbers**.
+- Configurar productos con **By Lots**.
+- El popup **Detailed Operations** en recepciones/entregas.
+- El tablero de **Lots/Serial Numbers** y el reporte de trazabilidad.
+
+Para gestionarlas en local (como en el recurso de SUNAT):
+
+1. Abrir  
+   `https://www.odoo.com/documentation/saas-18.4/es/applications/inventory_and_mrp/inventory/product_management/product_tracking/lots.html`
+2. Inspeccionar cada imagen con las herramientas de desarrollador y copiar su URL (normalmente bajo `/documentation/saas-18.4/_images/...`).
+3. Descargar a `knowledge/docs/batches-and-serial-numbers/imgs/`, por ejemplo:
+
+```bash
+cd knowledge/docs/batches-and-serial-numbers
+mkdir -p imgs
+curl -o imgs/lots-setting.png "https://www.odoo.com/documentation/saas-18.4/_images/lots-setting.png"
+```
+
+4. Referenciar las imágenes con rutas relativas:
+
+```markdown
+![Ajuste de lotes en Inventario](imgs/lots-setting.png)
+```
+
+De esta forma tendrás la documentación de **lotes** alineada con Odoo saas‑18.4 y las imágenes disponibles en local.
+
 
