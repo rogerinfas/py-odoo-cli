@@ -1,281 +1,243 @@
 ---
-title: Usar números de serie para rastrear productos en Odoo 15
-source: https://www.odoo.com/documentation/15.0/es/applications/inventory_and_mrp/inventory/management/lots_serial_numbers/serial_numbers.html
+title: Números de serie en Odoo saas‑18.4
+source: https://www.odoo.com/documentation/saas-18.4/es/applications/inventory_and_mrp/inventory/product_management/product_tracking/serial_numbers.html
 ---
 
-# Usar números de serie para rastrear productos
+# Números de serie
 
-Los **números de serie** son una de las dos maneras en las que se pueden identificar productos para rastrearlos con Odoo.  
-Un **número de serie** es un identificador único que se asigna a los productos o artículos de forma incremental (o secuencial) para distinguirlos de otros productos y artículos.
+Los **números de serie** son una de las dos formas de identificar y rastrear productos en Odoo (junto con los **lotes**).  
+Un número de serie es un identificador **único** asignado a cada unidad para distinguirla de las demás.
 
-Los números de serie pueden:
+En Odoo saas‑18.4:
 
-- Ser solo **numéricos**.
-- Incluir **letras**.
-- Incluir otros **símbolos tipográficos**.
-- O una combinación de todos los anteriores.
+- Los números de serie pueden contener números, letras y otros caracteres.
+- Permiten rastrear:
+  - **Ubicación actual** del producto.
+  - **Historial de movimientos**.
+  - **Fechas de vencimiento** asociadas.
+- Son clave para:
+  - Servicio posventa (garantías, reparaciones, devoluciones).
+  - Retiros de producto.
+  - Auditorías y trazabilidad regulatoria.
 
-Se asignan a **productos individuales** para poder identificar el **historial completo** de cada artículo a lo largo de la cadena de suministro.  
-Esto es especialmente útil para fabricantes que ofrecen **servicio posventa** (garantías, reparaciones, soporte técnico, etc.).
-
-> Referencia relacionada:
-> - [Use lotes para gestionar grupos y productos](https://www.odoo.com/documentation/15.0/es/applications/inventory_and_mrp/inventory/management/lots_serial_numbers/lots.html)
-> - [Diferencia entre lotes y números de serie](https://www.odoo.com/documentation/15.0/es/applications/inventory_and_mrp/inventory/management/lots_serial_numbers/differences.html)
-
----
-
-## Activar lotes y números de serie
-
-Para rastrear productos usando números de serie, primero se debe activar la función **Números de lote y de serie**:
-
-1. Ir a la aplicación `Inventario ‣ Configuración ‣ Ajustes`.
-2. Bajar a la sección **Trazabilidad**.
-3. Marcar la casilla **Números de lote y de serie**.
-4. Hacer clic en **Guardar**.
-
-Esta configuración habilita el uso tanto de **lotes** como de **números de serie** en el inventario.
-
-> En la documentación oficial se muestra una captura con el ajuste activado.
+> Referencias relacionadas:
+> - [Lot numbers — Odoo saas‑18.4](https://www.odoo.com/documentation/saas-18.4/es/applications/inventory_and_mrp/inventory/product_management/product_tracking/lots.html)
+> - [Expiration dates — Odoo saas‑18.4](https://www.odoo.com/documentation/saas-18.4/es/applications/inventory_and_mrp/inventory/product_management/product_tracking/expiration_dates.html)
 
 ---
 
-## Configurar el rastreo por número de serie en los productos
+## 1. Habilitar lotes y números de serie
 
-Una vez activados los **Números de lote y de serie**, se puede configurar que un producto se rastree por **número de serie único**.
+### 1.1. Ajuste global de trazabilidad
 
-Pasos:
+1. Ir a `Inventario ‣ Configuración ‣ Ajustes`.
+2. Sección **Trazabilidad**.
+3. Activar **Lotes y números de serie (Lots & Serial Numbers)**.
+4. Guardar cambios.
+
+Esto permite que el inventario se gestione con lotes y/o números de serie.
+
+### 1.2. Por tipo de operación
+
+Para controlar dónde se **crean** o solo se **usan** números de serie:
+
+1. Ir a `Inventario ‣ Configuración ‣ Tipos de operación`.
+2. Abrir un tipo (por ejemplo, **Recepciones**, **Órdenes de entrega**, **Fabricación**).
+3. En la sección **Lotes/Números de serie**:
+   - **Crear nuevos (Create New)**: permite generar números de serie nuevos en esa operación (típico en Recepciones).
+   - **Usar existentes (Use Existing)**: fuerza a usar solo números ya existentes (típico en Entregas).
+4. Guardar.
+
+---
+
+## 2. Configurar seguimiento por número de serie en productos
 
 1. Ir a `Inventario ‣ Productos ‣ Productos`.
-2. Seleccionar el producto a rastrear.
-3. Hacer clic en **Editar**.
-4. Ir a la pestaña **Inventario**.
-5. En la sección **Trazabilidad**, elegir la opción **Por número de serie único**.
-6. Guardar los cambios (icono de nube o botón de guardar).
+2. Seleccionar el producto.
+3. En la pestaña **Información general**:
+   - Activar **Seguir inventario (Track Inventory)**.
+   - En el campo de seguimiento, elegir **Por número de serie único (By Unique Serial Number)**.
+4. Guardar.
 
 Con esto:
 
-- El producto queda configurado para manejarse **unidad por unidad** con número de serie.
-- Al recibir o fabricar, se podrá asignar o crear números de serie para ese producto.
+- Cada unidad de ese producto tendrá **un número de serie único**.
+- Podrás asignar números de serie en recepciones, entregas, fabricación y ajustes.
 
-> Advertencia: Si hay existencias sin número de serie/lote asignado, Odoo mostrará una ventana de **error de usuario** indicando que es necesario asignarlos mediante un **ajuste de inventario**.
+---
 
-### Crear nuevos números de serie para productos ya en existencias
+## 3. Asignar números de serie
 
-Es posible crear números de serie nuevos para productos que ya están en stock y aún no tienen número de serie.
+Los números de serie se pueden asignar en varios puntos del flujo:
 
-1. Ir a `Inventario ‣ Productos ‣ Números de lote/serie`.
+- A productos **ya en stock** sin número asignado.
+- En **recepciones** (entradas).
+- En **órdenes de entrega** (salidas).
+- En **órdenes de fabricación**.
+- En **ajustes de inventario**.
+
+### 3.1. Crear números de serie para productos ya en stock
+
+1. Ir a `Inventario ‣ Productos ‣ Lotes/Números de serie`.
 2. Hacer clic en **Nuevo**.
-3. Odoo genera automáticamente un valor en **Número de lote/serie** (puede editarse).
-4. En el campo **Producto**, seleccionar el producto al que se le asignará este número.
+3. Odoo genera un **Lote/Número de serie** de forma automática (editable).
+4. En **Producto**, seleccionar el producto.
 5. Opcionalmente:
-   - Ajustar la **Cantidad**.
-   - Definir una **Referencia interna** única.
-   - Asociar a un **Sitio web** específico (si aplica multi-sitio).
-   - Añadir una **descripción** en la pestaña correspondiente.
-6. Hacer clic en **Guardar**.
+   - Ajustar **Cantidad en mano (On Hand Quantity)**.
+   - Definir **Referencia interna** (SKU alternativo).
+   - Seleccionar **Compañía**.
+   - Añadir **Descripción** en la pestaña correspondiente.
+6. Guardar.
 
-Luego:
+Después:
 
-- Volver a `Productos ‣ Productos`.
-- Abrir el producto.
-- Usar el botón inteligente **Número de lote/serie** para ver los números asignados.
+- Ir a `Inventario ‣ Productos ‣ Productos`, abrir el producto y usar el botón inteligente **Lotes/Números de serie** para ver los números asociados.
 
 ---
 
-## Gestionar números de serie en envíos y recepciones
+### 3.2. Crear/asignar números de serie en recepciones y entregas
 
-Los números de serie se pueden asignar tanto en operaciones **entrantes** (compras/recepciones) como **salientes** (ventas/entregas).
+En **Recepciones** (`Inventario ‣ Operaciones ‣ Recepciones`) y **Órdenes de entrega** (`Inventario ‣ Operaciones ‣ Entregas`) se usan dos interfaces:
 
-### Gestionar números de serie en recepciones (bienes entrantes)
+#### A) Campo directo de número de serie
 
-1. Ir a la aplicación **Compra** y crear una nueva **Solicitud de cotización**.
-2. Completar:
-   - **Proveedor**.
-   - Productos en las líneas.
-   - **Cantidad** de cada producto.
-3. Hacer clic en **Confirmar orden** para convertirla en **Orden de compra**.
-4. Pulsar el botón inteligente **Recepción** para abrir el albarán/recepción en almacén.
+- Mostrar la columna **Números de serie** desde el icono de ajustes de columnas.
+- Escribir o seleccionar el número de serie directamente en la línea de producto.
 
-> Advertencia: Si se pulsa **Validar** sin asignar números de serie a productos que lo requieren, aparece una ventana de **Error de usuario** que obliga a ingresar lote/número de serie.
+#### B) Ventana de **Operaciones detalladas**
 
-Para asignar los números:
-
-1. En la recepción, ir a la pestaña **Operaciones**.
-2. Hacer clic en el icono de **Opciones adicionales** (las cuatro líneas horizontales).
-3. Se abre la ventana **Operaciones detalladas**.
-4. En la parte inferior, usar la columna **Nombre del número de lote/de serie** para registrar los números.
-
-Hay tres opciones:
-
-#### Asignar números de serie manualmente
-
-- Hacer clic en **Agregar una línea**.
-- Definir la **Ubicación** donde se almacenará.
-- Escribir el **Nombre del número de serie**.
-- Indicar la **Cantidad hecha**.
-- Repetir hasta cubrir la cantidad total del producto (campo **Demanda** / **Cantidad programada**).
-
-#### Asignar números de serie de manera automática
-
-Para muchos productos, Odoo puede generar números de serie de forma masiva:
-
-1. En la ventana **Operaciones detalladas**, rellenar:
-   - **Primer NS**: primer número de la secuencia.
-   - **Cantidad de NS**: número total de números de serie a generar.
-2. Hacer clic en **Asignar números de serie**.
-
-Odoo creará las líneas necesarias y asignará los números secuenciales según la cantidad solicitada.
-
-#### Copiar y pegar números de serie desde una hoja de cálculo
-
-1. Preparar en una hoja de cálculo todos los números de serie recibidos del proveedor.
-2. Copiar esa lista.
-3. En la ventana **Operaciones detalladas**, pegar en la columna **Nombre del número de lote/serie**.
-4. Odoo creará automáticamente una línea por cada número pegado.
-5. Completar **Cantidades hechas** y **Ubicaciones** por línea.
-
-> Truco: Para órdenes de compra con muchas unidades, el botón **Asignar números de serie** evita duplicar o reciclar números y mejora la trazabilidad.
-
-Una vez asignados todos los números de serie:
-
-1. Hacer clic en **Confirmar** en la ventana emergente.
-2. Pulsar **Validar** en la recepción.
-3. Se habilita el botón inteligente **Trazabilidad** para ver:
-   - Documento de referencia.
-   - Producto.
-   - Lote/número de serie.
-   - Movimientos asociados.
-
----
-
-### Gestionar números de serie en órdenes de entrega (bienes salientes)
-
-1. Ir a la aplicación **Ventas** y hacer clic en **Crear**.
-2. Completar los datos de la cotización:
-   - **Cliente**.
-   - Productos en la pestaña **Líneas de la orden**.
-   - **Cantidad** a vender.
-3. Hacer clic en **Confirmar** para convertir la cotización en **Orden de venta**.
-4. Pulsar el botón inteligente **Entrega** para abrir el albarán de salida en almacén.
-
-En la entrega:
-
-1. Hacer clic en el icono de **Opciones adicionales** en la pestaña **Operaciones**.
-2. Se abre la ventana **Operaciones detalladas**.
-3. Odoo suele proponer en automático números de serie ya reservados para cada línea.
-4. Si se requiere cambiar un número:
-   - Abrir el desplegable **Número de lote/serie**.
-   - Elegir (o escribir) el número de serie deseado.
-   - Ajustar las **Cantidades hechas**.
-5. Confirmar la ventana emergente y luego pulsar **Validar** para registrar la entrega.
-
-Tras validar:
-
-- Aparece el botón inteligente **Trazabilidad**, donde se ve el reporte actualizado con:
-  - Documento de referencia.
-  - Producto.
-  - Fecha.
-  - Lote/número de serie.
-  - Posibles referencias cruzadas con recepciones previas que compartan el mismo número de serie.
-
----
-
-## Gestionar números de serie para distintos tipos de operaciones
-
-Por defecto, Odoo se comporta así:
-
-- En **recepciones (compras)**:
-  - Se pueden **crear nuevos** números de serie.
-  - No se pueden usar números de serie ya existentes por defecto.
-- En **órdenes de entrega (ventas)**:
-  - **No** se pueden crear nuevos números de serie.
-  - Solo se pueden usar números de serie **existentes**.
-
-Este comportamiento se puede ajustar por **tipo de operación**:
-
-1. Ir a `Inventario ‣ Configuración ‣ Tipos de operaciones`.
-2. Seleccionar el tipo de operación deseado.
-
-Ejemplos:
-
-- Tipo **Recepciones**:
-  - Activar la opción **Utilizar números de lote o de serie existentes** en la sección **Números de lote/serie**.
-- Tipo **Órdenes de entrega**:
-  - Activar la opción **Crear nuevo** en la sección **Números de lote/serie** para permitir generar nuevos números en la salida.
-
-Los cambios se guardan automáticamente (o se puede usar el icono de nube para guardar manualmente).
-
----
-
-## Trazabilidad del número de serie
-
-Los reportes de **trazabilidad** permiten ver el ciclo de vida completo de un producto:
-
-- De dónde vino y **cuándo**.
-- Dónde se **almacenó**.
-- A quién y **cuándo** se entregó.
-
-Para consultar esta información:
-
-1. Ir a `Inventario ‣ Productos ‣ Números de serie/lote`.
-2. Allí se visualiza el tablero con todos los números de lote y de serie.
-3. Se puede expandir cada registro para ver:
-   - Productos asociados.
+1. En la línea de producto, hacer clic en **Detalles (Details)**.
+2. Se abre el popup **Operaciones detalladas** con columnas para:
+   - **Lote/Número de serie**.
+   - Ubicaciones.
    - Cantidades.
-   - Movimientos.
 
-Para agrupar por número de serie o lote:
+Desde aquí hay tres formas principales:
 
-1. Quitar los filtros automáticos de la barra de búsqueda (esquina superior derecha).
-2. Hacer clic en **Agrupar por**.
-3. Elegir **Agregar grupo personalizado**.
-4. Seleccionar **Lote/Número de serie**.
-5. Pulsar **Aplicar**.
+##### 3.2.1. Añadir una línea (Add a line)
 
-De esta forma, se muestran todos los números de serie y de lote existentes, con las cantidades de productos que usan cada uno.  
-Para números de serie **únicos** que no se reutilizan, debe existir **solo un producto por número de serie**.
+- Pulsar **Add a line**.
+- Escribir el valor de **Lote/Número de serie**.
+- Ajustar la **Cantidad** (normalmente 1 en números de serie).
 
-> Truco: Al hacer clic sobre una línea de número de serie se abre su formulario, desde donde los botones inteligentes **Ubicación** y **Trazabilidad** permiten ver:
-> - Todas las existencias actuales que usan ese número.
-> - Todas las operaciones en las que se ha utilizado.
+##### 3.2.2. Generate Serials/Lots
 
-![Página de reporte de números de serie con listas desplegables](https://www.odoo.com/documentation/15.0/_images/serial-numbers-reporting-page.png)
+- Pulsar **Generate Serials/Lots**.
+- Indicar:
+  - **First Serial Number** (primer número de la secuencia).
+  - **Number of SN** (cuántos números generar).
+  - **Keep current lines** para conservar o no las líneas ya existentes.
+- Pulsar **Generate**.
+
+Odoo:
+
+- Crea en bloque los números de serie.
+- Ajusta la **Cantidad** en función de la cantidad generada (puede superar la demanda si así se configura).
+
+##### 3.2.3. Import Serials/Lots
+
+- Pulsar **Import Serials/Lots**.
+- En el popup **Import Serials**, pegar la lista de números (uno por línea) en **Lots/Serial numbers**.
+- (Opcional) Marcar **Keep current lines** para añadir, o desmarcar para reemplazar.
+- Pulsar **Generate**.
+
+Esto es ideal cuando se copian números desde una hoja de cálculo.
 
 ---
 
-## Referencia de imágenes
+### 3.3. Operaciones detalladas / Moves
 
-Todas las imágenes apuntan al sitio oficial de Odoo.  
-Si quieres descargarlas para trabajarlas en local (por ejemplo en `knowledge/docs/batches-and-serial-numbers/imgs/`), puedes usar esta tabla como referencia:
+Además del popup de detalles:
 
-| Descripción                                                                 | URL (Odoo)                                                                                     | Nombre sugerido local                                 |
-|----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| Ajuste activado: números de lote y de serie en Inventario                  | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-enabled-setting.png`          | `serial-numbers-enabled-setting.png`                  |
-| Formulario de producto con rastreo por número de serie                     | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-product-tracking.png`         | `serial-numbers-product-tracking.png`                 |
-| Nuevo número de serie creado para producto en existencias                  | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-new-serial-number.png`        | `serial-numbers-new-serial-number.png`                |
-| Error de usuario: falta asignar número de serie/lote en recepción          | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-user-error-popup.png`         | `serial-numbers-user-error-popup.png`                 |
-| Asignación automática de números de serie en operaciones detalladas        | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-auto-assign-sn.png`           | `serial-numbers-auto-assign-sn.png`                   |
-| Ejemplo de hoja de cálculo con números de serie                            | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-excel-spreadsheet.png`        | `serial-numbers-excel-spreadsheet.png`                |
-| Ventana de operaciones detalladas con números de serie en órdenes de entrega | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-detailed-operations-popup.png` | `serial-numbers-detailed-operations-popup.png`        |
-| Ajustes de tipos de operación para gestión de números de serie             | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-operations-types.png`         | `serial-numbers-operations-types.png`                 |
-| Reporte de trazabilidad de números de serie                                | `https://www.odoo.com/documentation/15.0/_images/serial-numbers-reporting-page.png`           | `serial-numbers-reporting-page.png`                   |
+1. En una recepción o entrega, pulsar el botón inteligente **Moves (Movimientos)**.
+2. En la vista de movimientos, usar la columna **Lote/Número de serie** para:
+   - Revisar los números asignados.
+   - Modificarlos manualmente si es necesario.
 
-Ejemplo de descarga desde la raíz del proyecto:
+Esta vista da un resumen de los números de serie usados en todos los movimientos relacionados.
+
+---
+
+## 4. Mostrar números de serie en notas de entrega
+
+Para que los números de serie aparezcan en el PDF de la nota de entrega:
+
+1. Ir a `Inventario ‣ Configuración ‣ Ajustes`.
+2. En **Trazabilidad**, activar **Mostrar lotes y números de serie en las notas de entrega (Display Lots & Serial Numbers on Delivery Slips)**.
+3. Guardar.
+
+Después:
+
+1. En una orden de entrega validada, pulsar **Acciones ‣ Imprimir ‣ Nota de entrega**.
+2. En el documento PDF, la columna **Lote/Número de serie** listará los números asociados a cada producto.
+
+---
+
+## 5. Trazabilidad y reporting
+
+### 5.1. Tablero de Lotes/Números de serie
+
+1. Ir a `Inventario ‣ Productos ‣ Lotes/Números de serie`.
+2. Verás el **tablero de Lotes/Números de serie**, donde:
+   - Cada fila representa un lote o número de serie.
+   - Se puede expandir para ver cantidades, ubicaciones y producto.
+
+Acciones útiles:
+
+- **Group By / Agrupar por**:
+  - Producto.
+  - Lote/Número de serie.
+  - Fecha de caducidad (si se usa expiración).
+- Hacer clic en una línea para abrir el formulario del número de serie.
+- Desde el formulario:
+  - Botón **Ubicación (Location)** → stock actual.
+  - Botón **Trazabilidad (Traceability)** → todos los movimientos donde aparece ese número.
+
+### 5.2. Otros reportes que usan números de serie
+
+En `Inventario ‣ Reportes` hay informes que permiten filtrar/agrupuar por **Lote/Número de serie**:
+
+- **Ubicaciones**.
+- **Historial de movimientos (Moves history)**.
+- **Análisis de movimientos (Moves analysis)**.
+
+Esto permite, por ejemplo:
+
+- Ver todos los movimientos de un número de serie concreto.
+- Analizar salidas/entradas por rangos de números de serie.
+
+---
+
+## 6. Referencia de imágenes (saas‑18.4)
+
+La documentación de Odoo saas‑18.4 incluye capturas para:
+
+- Activar **Lots & Serial Numbers**.
+- Configurar el producto con **By Unique Serial Number**.
+- Usar el campo **Serial Numbers** en recepciones/entregas.
+- El popup **Detailed Operations** (Add a line / Generate Serials / Import Serials).
+- El tablero de **Lots/Serial Numbers** y los reportes.
+
+Para replicar el estilo de `WEB_RESOURCE_CERTIFICADO_DIGITAL_SUNAT.md`:
+
+1. Abre la página oficial:  
+   `https://www.odoo.com/documentation/saas-18.4/es/applications/inventory_and_mrp/inventory/product_management/product_tracking/serial_numbers.html`
+2. Inspecciona cada captura con las herramientas de desarrollador.
+3. Copia las URLs de las imágenes (normalmente bajo `/documentation/saas-18.4/_images/...`).
+4. Descarga los archivos a `knowledge/docs/batches-and-serial-numbers/imgs/`, por ejemplo:
 
 ```bash
 cd knowledge/docs/batches-and-serial-numbers
 mkdir -p imgs
-curl -o imgs/serial-numbers-enabled-setting.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-enabled-setting.png"
-curl -o imgs/serial-numbers-product-tracking.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-product-tracking.png"
-curl -o imgs/serial-numbers-new-serial-number.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-new-serial-number.png"
-curl -o imgs/serial-numbers-user-error-popup.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-user-error-popup.png"
-curl -o imgs/serial-numbers-auto-assign-sn.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-auto-assign-sn.png"
-curl -o imgs/serial-numbers-excel-spreadsheet.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-excel-spreadsheet.png"
-curl -o imgs/serial-numbers-detailed-operations-popup.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-detailed-operations-popup.png"
-curl -o imgs/serial-numbers-operations-types.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-operations-types.png"
-curl -o imgs/serial-numbers-reporting-page.png "https://www.odoo.com/documentation/15.0/_images/serial-numbers-reporting-page.png"
+curl -o imgs/serial-numbers-setting.png "https://www.odoo.com/documentation/saas-18.4/_images/serial-numbers-setting.png"
 ```
 
-Si guardas las imágenes en `imgs/`, puedes reemplazar las URLs absolutas por rutas relativas dentro de este mismo archivo, por ejemplo: `![Números de serie en recepción](imgs/serial-numbers-user-error-popup.png)`.
+5. En este mismo MD, referencia las imágenes con rutas relativas:
+
+```markdown
+![Ajuste de trazabilidad por números de serie](imgs/serial-numbers-setting.png)
+```
+
+De esta manera tendrás la **documentación actualizada a saas‑18.4** y las imágenes disponibles en local, con un patrón idéntico al recurso de SUNAT.
 
 
