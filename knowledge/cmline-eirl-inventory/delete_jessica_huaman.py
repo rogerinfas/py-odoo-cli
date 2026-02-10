@@ -38,8 +38,13 @@ def main():
                 else:
                     print("❌ Failed to delete partner (Odoo returned False).")
             except Exception as e:
-                print(f"❌ Error deleting partner: {e}")
-                print("   (Note: You cannot delete a partner if they are linked to existing invoices or entries.)")
+                print(f"⚠️  Could not delete partner: {e}")
+                print("🔄 Attempting to archive (set active=False)...")
+                try:
+                    client.write('res.partner', [partner['id']], {'active': False})
+                    print("✅ Partner archived successfully.")
+                except Exception as archive_error:
+                   print(f"❌ Failed to archive partner: {archive_error}")
 
     except Exception as e:
         print(f"❌ Critical error: {e}")
