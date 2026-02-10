@@ -8,11 +8,21 @@ import json
 try:
     client = OdooClient()
     client.connect()
+    
+    # Check if there are other parter records with same name/vat that might be confused
     partners = client.search_read(
         'res.partner',
-        domain=[['name', 'ilike', 'Jessica Huaman Arias']],
-        fields=['name', 'vat', 'l10n_latam_identification_type_id', 'id']
+        domain=[['vat', '=', '10425620687']],
+        fields=[
+            'name', 
+            'vat', 
+            'l10n_latam_identification_type_id', 
+            'country_id', 
+            'l10n_pe_district',
+            'street'
+        ]
     )
-    print(json.dumps(partners, indent=2))
+    print(f"All partners with this VAT: {json.dumps(partners, indent=2)}")
+
 except Exception as e:
     print(f"Error: {e}")
