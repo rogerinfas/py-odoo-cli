@@ -65,6 +65,8 @@ ODOO_USER=email@ejemplo.com
 ODOO_PASSWORD=tu-api-key
 ```
 
+Opcionales: `ODOO_VERIFY_SSL` (true/false), `ODOO_TIMEOUT` (segundos, por defecto 60). Ver `.env.example` para comentarios.
+
 ---
 
 ## Instalación con Docker
@@ -169,12 +171,19 @@ for p in partners:
 
 ### Desde la CLI
 
+Tras `uv sync` puedes usar `uv run python main.py <comando>` o, si instalas el paquete, el binario `odoo-cli`.
+
 | Acción              | Comando |
 |---------------------|---------|
 | Probar conexión     | `uv run python main.py test-connection` |
 | Listar registros    | `uv run python main.py list res.partner --limit 5 --fields name,email` |
+| Listar con dominio  | `uv run python main.py list res.partner --domain '[["is_company","=",true]]'` |
+| Salida JSON o CSV   | `uv run python main.py list res.partner --output json` |
 | Módulos instalados  | `uv run python main.py list-modules` |
 | Parámetros sistema  | `uv run python main.py list-config` |
+| Crear registro      | `uv run python main.py create res.partner --data '{"name":"Nuevo"}'` |
+| Actualizar registro | `uv run python main.py write res.partner 1 --data '{"email":"a@b.com"}'` |
+| Eliminar registro   | `uv run python main.py unlink res.partner 1,2,3` |
 
 ---
 
@@ -199,6 +208,18 @@ py-odoo-cli/
 Contiene proyectos concretos y casos de uso que usan `odoo_cli`. Cada proyecto vive en su propia carpeta con scripts, documentación y, si aplica, configuraciones propias. La raíz del repo se mantiene limpia y el conocimiento queda organizado por implementación.
 
 Más detalles en [knowledge/README.md](knowledge/README.md).
+
+---
+
+## Tests
+
+Tests con unittest (requiere dependencias instaladas, p. ej. `uv sync`):
+
+```bash
+uv run python -m unittest discover -s tests -v
+```
+
+En cada push y pull request se ejecutan los tests en CI (GitHub Actions) para Python 3.11, 3.12 y 3.13.
 
 ---
 
