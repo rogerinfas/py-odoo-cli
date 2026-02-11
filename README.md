@@ -15,6 +15,8 @@
 
 Biblioteca reutilizable que centraliza la interacción con Odoo usando variables de entorno (`.env`) y una API mínima y predecible.
 
+**Diseñado para trabajar con editores de IA**: Configura tu `.env`, abre el proyecto en tu editor de IA (Cursor, etc.), y pídele que cree scripts específicos para tu proyecto. La IA crea scripts en `knowledge/<tu-proyecto>/` que puedes ejecutar inmediatamente con Docker.
+
 ---
 
 ## Características
@@ -25,6 +27,8 @@ Biblioteca reutilizable que centraliza la interacción con Odoo usando variables
 | **Configurable** | Credenciales y opciones vía `.env`. |
 | **API sencilla** | Wrappers para `search_read`, `create`, `write`, `unlink`. |
 | **CLI incluido** | Punto de entrada `main.py` para pruebas y tareas rápidas. |
+| **Dockerizado** | Ejecuta sin instalar Python localmente. |
+| **IA-friendly** | Diseñado para que editores de IA creen scripts en `knowledge/`. |
 
 ---
 
@@ -119,7 +123,7 @@ docker run --rm --env-file .env -v $(pwd)/knowledge:/app/knowledge py-odoo-cli l
 
 **Ejecutar scripts de la carpeta `knowledge/`:**
 
-La carpeta `knowledge/` contiene scripts y casos de uso específicos. Puedes ejecutarlos con Docker usando el script helper:
+La carpeta `knowledge/` contiene scripts y casos de uso específicos. Puedes ejecutarlos con Docker:
 
 ```bash
 # Usando el script helper
@@ -129,7 +133,18 @@ La carpeta `knowledge/` contiene scripts y casos de uso específicos. Puedes eje
 docker-compose run --rm odoo-cli python knowledge/hotel-trip-agency/setup_timezone.py
 ```
 
-Los datos y scripts en `knowledge/` se persisten como volumen, permitiendo "alimentar el cerebro" con información y casos de uso específicos que se mantienen entre ejecuciones.
+**Flujo de trabajo con IA:**
+
+1. Configura tu `.env` con credenciales de Odoo
+2. Abre el proyecto en tu editor de IA (Cursor, etc.)
+3. Pide a la IA que cree scripts para tu proyecto: *"Crea un script para sincronizar productos desde mi ERP"*
+4. La IA crea `knowledge/<tu-proyecto>/` con los scripts
+5. Ejecuta inmediatamente con Docker (sin reconstruir la imagen):
+   ```bash
+   docker-compose run --rm odoo-cli python knowledge/mi-proyecto/mi_script.py
+   ```
+
+Los datos y scripts en `knowledge/` se persisten como volumen, permitiendo "alimentar el cerebro" con información y casos de uso específicos que se mantienen entre ejecuciones. Ver [knowledge/README.md](knowledge/README.md) para más detalles.
 
 ---
 
