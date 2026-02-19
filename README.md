@@ -32,6 +32,18 @@ Biblioteca reutilizable que centraliza la interacción con Odoo usando variables
 
 ---
 
+## Política estricta sobre Odoo Studio
+
+**Queda terminantemente prohibido** el uso, instalación, activación o configuración de **Odoo Studio** (módulo `web_studio`) en **cualquier instancia de Odoo** que se gestione mediante este proyecto o sus scripts derivados.
+
+- **No se debe instalar ni activar Odoo Studio** desde la interfaz web de Odoo ni mediante llamadas XML-RPC/JSON-RPC, ni directamente ni de forma indirecta (por ejemplo, instalando módulos que lo activen como dependencia).
+- Cualquier script, procedimiento o manual de trabajo asociado a este repositorio debe **respetar y hacer cumplir esta prohibición**.
+- Si una instancia ya tuviera Odoo Studio instalado, se deberá coordinar su **desinstalación o desactivación** siguiendo las políticas internas de la organización antes de seguir usando `py-odoo-cli` sobre esa base de datos.
+
+Esta prohibición es **mandatoria y no negociable** según las directrices del responsable funcional/técnico del proyecto.
+
+---
+
 ## Instalación
 
 **1. Clonar el repositorio**
